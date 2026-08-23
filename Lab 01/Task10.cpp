@@ -1,298 +1,209 @@
 #include <iostream>
-#include <cstring>
+#include <string>
 using namespace std;
 
-class StudentRecord {
+class StudentRecord
+{
+private:
+    string name;
+    int* marks;
+    int size;
 
-	private:
-	    char* studentName;
-	    int* marks;
-	    int size;
-	public:
-	    StudentRecord(const char* name, int numberOfMarks) {
-	        size = numberOfMarks;
-	        studentName = new char[strlen(name) + 1];
-	        strcpy(studentName, name);
-	        marks = new int[size];
-	        for (int i = 0; i < size; i++) {
-	            marks[i] = 0;
-	        }
-	        cout << "Created StudentRecord for: " << studentName << endl;
-	        cout << "Name memory allocated" << endl;
-	        cout << "Marks memory allocated for " << size << " marks" << endl;
-	    }
-	    
-	    StudentRecord(const StudentRecord& obj) {
-	    	
-	        size = obj.size;
-	        studentName = new char[strlen(obj.studentName) + 1];
-	        strcpy(studentName, obj.studentName);
-	        marks = new int[size];
-	        
-	        for (int i = 0; i < size; i++) {
-	            marks[i] = obj.marks[i];
-	        }
-	        
-	        cout << "Deep copied: " << studentName << endl;
-	        cout << "New name memory allocated."<< endl;
-			cout << "New marks array allocated."<< endl;
-			
-	    }
-	
-	    StudentRecord& operator=(const StudentRecord& obj) {
-	    	
-	        // Protect against self-assignment
-	        if (this != &obj) {
-	            cout << "    Releasing old memory of "  << studentName << endl;
-	            delete[] studentName;
-	            delete[] marks;
-	            size = obj.size;
-	            studentName = new char[strlen(other.studentName) + 1];
-	            strcpy(studentName, obj.studentName);
-	            marks = new int[size];
-	
-	            for (int i = 0; i < size; i++) {
-	                marks[i] = other.marks[i];
-	            }
-	            cout << "New memory allocated for " << studentName << endl;
-	        }
-	        else {
-	            cout << "Self-assignment detected so NO memory changed." << endl;
-	        }
-	        return *this;
-	    }
-	    
-	    void enterMarks() {
-	        cout << "\nEnter " << size << " marks for " << studentName << ":\n";
-	        for (int i = 0; i < size; i++) {
-	            cout << "Mark " << i + 1 << ": ";
-	            cin >> marks[i];
-	        }
-	    }
-	
-	    void display() const {
-	    	
-	        cout << "\nStudent Name: " << studentName << endl;
-	        cout << "Marks: ";
-	
-	        for (int i = 0; i < size; i++) {
-	            cout << marks[i] << " ";
-	        }
-	        
-	        cout << endl;
-	    }
+public:
+    // Parameterized constructor
+    StudentRecord(string n, int s)
+    {
+        name = n;
+        size = s;
+        marks = new int[size];
 
-	    void modifyMark(int index, int newMark) {
-	
-	        if (index >= 0 && index < size) {
-	
-	            marks[index] = newMark;
-	
-	            cout << "Modification of " << studentName << "'s mark " << index + 1 << " changed to " << newMark << endl;
-	        }
-	        else {
-	            cout << "Invalid mark index." << endl;
-	        }
-	    }
-	
-	    ~StudentRecord() {
-	
-	        cout << "Destroying " << studentName << endl;
-	        cout << "Releasing name memory" << endl;
-	        delete[] studentName;
-	        cout << "Releasing marks memory." << endl;
-	
-	        delete[] marks;
-	    }
+        cout << "Constructor: " << name
+             << " | Pointer: " << marks
+             << " | Size: " << size << endl;
+
+        for (int i = 0; i < size; i++)
+        {
+            marks[i] = 0;
+        }
+    }
+
+    // Deep-copy Copy Constructor
+    StudentRecord(const StudentRecord& other)
+    {
+        name = other.name;
+        size = other.size;
+
+        marks = new int[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            marks[i] = other.marks[i];
+        }
+
+        cout << "Copy Constructor: " << name
+             << " | New Pointer: " << marks
+             << " | Copied From: " << other.marks << endl;
+    }
+
+    // Deep-copy Assignment Operator
+    StudentRecord& operator=(const StudentRecord& other)
+    {
+        cout << "Assignment Operator called for " << name << endl;
+
+        // Self-assignment check
+        if (this == &other)
+        {
+            cout << "Self-assignment detected." << endl;
+            return *this;
+        }
+
+        // Delete old memory
+        delete[] marks;
+
+        // Copy basic data
+        name = other.name;
+        size = other.size;
+
+        // Allocate new memory
+        marks = new int[size];
+
+        // Deep copy
+        for (int i = 0; i < size; i++)
+        {
+            marks[i] = other.marks[i];
+        }
+
+        cout << "New Pointer: " << marks
+             << " | Copied From: " << other.marks << endl;
+
+        return *this;
+    }
+
+    // Destructor
+    ~StudentRecord()
+    {
+        cout << "Destructor: " << name
+             << " | Deleting Pointer: " << marks << endl;
+
+        delete[] marks;
+    }
+
+    // Enter marks
+    void enterMarks()
+    {
+        cout << "Enter " << size << " marks for " << name << ": ";
+
+        for (int i = 0; i < size; i++)
+        {
+            cin >> marks[i];
+        }
+    }
+
+    // Display record
+    void display() const
+    {
+        cout << "\nName: " << name << endl;
+        cout << "Pointer: " << marks << endl;
+        cout << "Marks: ";
+
+        for (int i = 0; i < size; i++)
+        {
+            cout << marks[i] << " ";
+        }
+
+        cout << endl;
+    }
+
+    // Modify one mark
+    void modifyMark(int index, int newMark)
+    {
+        if (index >= 0 && index < size)
+        {
+            marks[index] = newMark;
+        }
+        else
+        {
+            cout << "Invalid index!" << endl;
+        }
+    }
 };
 
 
-int main() {
-    /*
-        OBJECT 1:
-        student1 owns:
+int main()
+{
+    cout << "---- OBJECT A ----" << endl;
 
-            name memory
-            marks memory
-    */
+    StudentRecord A("Ali", 3);
+    A.enterMarks();
 
-    StudentRecord student1("Syeda", 3);
-    student1.enterMarks();
-    cout << "\n--- Copying student1 into student2 ---"
-         << endl;
+    cout << "\n---- COPY CONSTRUCTOR -----" << endl;
 
-    StudentRecord student2 = student1;
+    StudentRecord B = A;
 
+    cout << "\nAfter copying A -> B:" << endl;
+    A.display();
+    B.display();
 
-    cout << "\n--- Current records ---" << endl;
+    cout << "\n---- MODIFY B -----" << endl;
 
-    cout << "\nStudent 1:";
-    student1.display();
+    B.modifyMark(0, 99);
 
-    cout << "\nStudent 2:";
-    student2.display();
+    cout << "A after modifying B:" << endl;
+    A.display();
 
+    cout << "B after modifying B:" << endl;
+    B.display();
 
-    cout << "\n--- Modifying student2 ---" << endl;
+    cout << "\n---- OBJECT C ----" << endl;
 
-    student2.modifyMark(0, 100);
+    StudentRecord C("Sara", 4);
+    C.enterMarks();
 
+    cout << "\n---- ASSIGNMENT C = A ----" << endl;
 
-    cout << "\nAfter modification:" << endl;
+    C = A;
 
-    cout << "\nStudent 1:";
-    student1.display();
+    C.display();
 
-    cout << "\nStudent 2:";
-    student2.display();
+    cout << "\n---- MODIFY C ----" << endl;
 
+    C.modifyMark(1, 77);
 
-    /*
-        =====================================================
-        ANOTHER OBJECT
-        =====================================================
+    cout << "A after modifying C:" << endl;
+    A.display();
 
-        student3 already exists.
+    cout << "C after modifying C:" << endl;
+    C.display();
 
-        Therefore:
+    cout << "\n===== SELF ASSIGNMENT =====" << endl;
 
-            student3 = student1;
+    A = A;
 
-        invokes the COPY ASSIGNMENT OPERATOR.
-    */
-
-    cout << "\n--- Creating student3 ---" << endl;
-
-    StudentRecord student3("Ali", 2);
-
-    student3.enterMarks();
-
-
-    cout << "\n--- Assigning student1 to student3 ---"
-         << endl;
-
-    student3 = student1;
-
-
-    cout << "\nAfter assignment:" << endl;
-
-    cout << "\nStudent 1:";
-    student1.display();
-
-    cout << "\nStudent 3:";
-    student3.display();
-
-
-    /*
-        Modify student3.
-
-        student1 must remain unchanged.
-    */
-
-    cout << "\n--- Modifying student3 ---" << endl;
-
-    student3.modifyMark(1, 99);
-
-
-    cout << "\nAfter modification:" << endl;
-
-    cout << "\nStudent 1:";
-    student1.display();
-
-    cout << "\nStudent 3:";
-    student3.display();
-
-
-    /*
-        =====================================================
-        SELF-ASSIGNMENT
-        =====================================================
-
-        student1 is assigned to itself.
-
-            student1 = student1;
-
-        The assignment operator must detect this.
-    */
-
-    cout << "\n--- Self-assignment ---" << endl;
-
-    student1 = student1;
-
-
-    /*
-        =====================================================
-        INNER SCOPE
-        =====================================================
-
-        temporaryStudent and copiedStudent will be
-        destroyed when this scope ends.
-    */
-
-    cout << "\n--- Entering inner scope ---" << endl;
+    cout << "\n===== INNER SCOPE =====" << endl;
 
     {
+        StudentRecord D = C;
 
-        StudentRecord temporaryStudent("Sara", 2);
+        cout << "\nD after copying C:" << endl;
+        D.display();
 
-        temporaryStudent.modifyMark(0, 75);
-        temporaryStudent.modifyMark(1, 85);
+        D.modifyMark(0, 55);
 
+        cout << "\nC after modifying D:" << endl;
+        C.display();
 
-        cout << "\n--- Copying temporaryStudent ---"
-             << endl;
+        cout << "\nD after modification:" << endl;
+        D.display();
 
-        StudentRecord copiedStudent = temporaryStudent;
-
-
-        cout << "\nTemporary Student:";
-        temporaryStudent.display();
-
-        cout << "\nCopied Student:";
-        copiedStudent.display();
-
-
-        cout << "\n--- Modifying copiedStudent ---"
-             << endl;
-
-        copiedStudent.modifyMark(0, 100);
-
-
-        cout << "\nAfter modification:" << endl;
-
-        cout << "\nTemporary Student:";
-        temporaryStudent.display();
-
-        cout << "\nCopied Student:";
-        copiedStudent.display();
-
-
-        cout << "\n--- Leaving inner scope ---"
-             << endl;
+        cout << "\nLeaving inner scope" << endl;
     }
 
+    cout << "\n===== BACK IN MAIN =====" << endl;
 
-    /*
-        temporaryStudent and copiedStudent have now been
-        destroyed.
+    A.display();
+    B.display();
+    C.display();
 
-        student1, student2 and student3 are still alive.
-    */
-
-
-    cout << "\n--- Back in main scope ---" << endl;
-
-    cout << "\nStudent 1:";
-    student1.display();
-
-    cout << "\nStudent 2:";
-    student2.display();
-
-    cout << "\nStudent 3:";
-    student3.display();
-
-
-    cout << "\n========== PROGRAM END ==========\n";
 
     return 0;
 }
