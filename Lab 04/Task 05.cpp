@@ -4,7 +4,7 @@ using namespace std;
 class Node{
 	public:
 		int data;
-		Node * next;
+		Node* next;
 		
 		Node(int d){
 			data = d;
@@ -13,20 +13,20 @@ class Node{
 };
 
 class LinkedList{
-		
 	public:
 		Node* head;
+		
 		LinkedList(){
 			head = NULL;
 		}
 		
 		void InsertInLinkedList(int val){
 			if(head == NULL){
-				Node * newNode = new Node(val);
+				Node* newNode = new Node(val);
 				head = newNode;
 			}
 			else{
-				Node * newNode = new Node(val);
+				Node* newNode = new Node(val);
 				newNode->next = head;
 				head = newNode;
 			}
@@ -34,55 +34,89 @@ class LinkedList{
 		
 		void display(){
 			Node* temp = head;
-			while(temp!=NULL){
+			
+			while(temp != NULL){
 				cout << temp->data << " ";
 				temp = temp->next;
 			}
+			
 			cout << endl;
 		}
-		
-		
-		
-		
 };
 
-Node* mergeTwoLinkedList(Node* h1, Node* h2){
-	if(h1 == NULL){
-		return h2;
+Node* getIntersectionNode(Node* hA, Node* hB){
+
+	Node* p1 = hA;
+	Node* p2 = hB;
+
+	while(p1 != p2){
+
+		if(p1 == NULL){
+			p1 = hB;
+		}
+		else{
+			p1 = p1->next;
+		}	
+		if(p2 == NULL){
+			p2 = hA;
+		}
+		else{
+			p2 = p2->next;
+		}
+			
 	}
-	if(h2 == NULL){
-		return h1;
-	}
-	if(h1->data <= h2->data){
-		h1->next = mergeTwoLinkedList(h1->next, h2);
-		return h1;
-	}
-	else{
-		h2->next = mergeTwoLinkedList(h1, h2->next);
-		return h2;
-	}
+
+	return p1;
 }
 
 int main(){
-	
-	LinkedList ll;
-	ll.InsertInLinkedList(7);
-	ll.InsertInLinkedList(5);
-	ll.InsertInLinkedList(3);
-	ll.InsertInLinkedList(1);
-	ll.display();
-	LinkedList ll2;
-	ll2.InsertInLinkedList(8);
-	ll2.InsertInLinkedList(6);
-	ll2.InsertInLinkedList(4);
-	ll2.InsertInLinkedList(2);
-	ll2.display();
-	mergeTwoLinkedList(ll.head , ll2.head);
-	ll.display();
-	
-	
-		
-	return 0;
-		
-}
 
+	LinkedList llA;
+	LinkedList llB;
+
+	llA.InsertInLinkedList(1);
+	llA.InsertInLinkedList(4);
+
+	llB.InsertInLinkedList(1);
+	llB.InsertInLinkedList(6);
+	llB.InsertInLinkedList(5);
+
+	LinkedList common;
+	common.InsertInLinkedList(5);
+	common.InsertInLinkedList(4);
+	common.InsertInLinkedList(8);
+
+	Node* temp = llA.head;
+	
+	while(temp->next != NULL){
+		temp = temp->next;
+	}
+	
+	temp->next = common.head;
+
+	temp = llB.head;
+	
+	while(temp->next != NULL){
+		temp = temp->next;
+	}
+	
+	temp->next = common.head;
+
+	cout << "Chain A: ";
+	llA.display();
+
+	cout << "Chain B: ";
+	llB.display();
+
+
+	Node* intersection = getIntersectionNode(llA.head, llB.head);
+
+	if(intersection != NULL){
+		cout << "Intersection point = [" << intersection->data << "]" << endl;
+	}
+	else{
+		cout << "No intersection" << endl;
+	}
+
+	return 0;
+}
