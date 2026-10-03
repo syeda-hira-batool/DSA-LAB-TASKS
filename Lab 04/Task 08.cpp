@@ -5,19 +5,22 @@ class Node{
 	public:
 		int data;
 		Node * next;
+		Node * prev;
 		
 		Node(int d){
 			data = d;
 			next = NULL;
+			prev = NULL;
 		}
 };
 
-class LinkedList{
-	private:
-		Node* head;
+class DoublyLinkedList{
 	public:
-		LinkedList(){
+		Node* head;
+		Node* tail;
+		DoublyLinkedList(){
 			head = NULL;
+			tail = NULL;
 		}
 		
 		void InsertInLinkedList(int val){
@@ -40,20 +43,45 @@ class LinkedList{
 			}
 			cout << endl;
 		}
-		
-		
-		
+				
 };
+
+int countTriplets(DoublyLinkedList &ll, int X){
+	
+    int count = 0;
+    Node* first = ll.head;
+
+    while(first != NULL){
+        Node* second = first->next;
+        
+        while(second != NULL){
+            Node* third = second->next;
+
+            while(third != NULL){
+                if(first->data + second->data + third->data == X){
+                    count++;
+                }
+                third = third->next;
+            }
+            second = second->next;
+        }
+        first = first->next;
+    }
+    return count;
+}
 
 int main(){
 	
-	LinkedList ll;
-	ll.InsertInLinkedList(1);
-	ll.InsertInLinkedList(2);
+	DoublyLinkedList ll;
+	ll.InsertInLinkedList(5);
+	ll.InsertInLinkedList(4);
 	ll.InsertInLinkedList(3);
 	ll.InsertInLinkedList(2);
 	ll.InsertInLinkedList(1);
-	ll.display();	
+	ll.display();
+	int x = 6;
+	cout << "COUNT: " << countTriplets(ll, x);	
+	
 	return 0;
 		
 }
