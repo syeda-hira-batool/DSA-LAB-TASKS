@@ -41,33 +41,11 @@ class LinkedList{
 			cout << endl;
 		}
 		
-		void reverseLinkedList(){
-			Node* curr = head;
-			Node* next = NULL;
-			Node* prev = NULL;
-			
-			while(curr!= NULL){
-				next = curr->next;
-				curr->next = prev;
-				prev = curr;
-				curr = next;
-			}
-			head = prev;
-		}
+		
 		
 };
 
 int main(){
-	
-	LinkedList ll;
-	ll.InsertInLinkedList(50);
-	ll.InsertInLinkedList(40);
-	ll.InsertInLinkedList(30);
-	ll.InsertInLinkedList(20);
-	ll.InsertInLinkedList(10);
-	ll.display();
-	ll.reverseLinkedList();
-	ll.display();
 	
 	return 0;
 	

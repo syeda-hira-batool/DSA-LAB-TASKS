@@ -41,18 +41,16 @@ class LinkedList{
 			cout << endl;
 		}
 		
-		void reverseLinkedList(){
-			Node* curr = head;
-			Node* next = NULL;
-			Node* prev = NULL;
+		Node* middleNode(){
+			Node* fast = head;
+			Node* slow = head;
 			
-			while(curr!= NULL){
-				next = curr->next;
-				curr->next = prev;
-				prev = curr;
-				curr = next;
+			while(fast!=NULL && fast->next!= NULL){
+				slow = slow->next;
+				fast = fast->next->next;
 			}
-			head = prev;
+			
+			return slow;
 		}
 		
 };
@@ -60,14 +58,23 @@ class LinkedList{
 int main(){
 	
 	LinkedList ll;
-	ll.InsertInLinkedList(50);
-	ll.InsertInLinkedList(40);
-	ll.InsertInLinkedList(30);
-	ll.InsertInLinkedList(20);
-	ll.InsertInLinkedList(10);
+	ll.InsertInLinkedList(5);
+	ll.InsertInLinkedList(4);
+	ll.InsertInLinkedList(3);
+	ll.InsertInLinkedList(2);
+	ll.InsertInLinkedList(1);
 	ll.display();
-	ll.reverseLinkedList();
-	ll.display();
+	cout << "Middle Node for LinkedList1 is " <<  ll.middleNode()->data << endl;
+	
+	LinkedList ll2;
+	ll2.InsertInLinkedList(6);
+	ll2.InsertInLinkedList(5);
+	ll2.InsertInLinkedList(4);
+	ll2.InsertInLinkedList(3);
+	ll2.InsertInLinkedList(2);
+	ll2.InsertInLinkedList(1);
+	ll2.display();
+	cout << "Middle Node for LinkedList2 is " <<  ll2.middleNode()->data<< endl;
 	
 	return 0;
 	
