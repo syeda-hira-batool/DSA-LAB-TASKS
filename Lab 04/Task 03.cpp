@@ -51,13 +51,13 @@ class LinkedList{
 		    }
 		
 		    Node* prev = NULL;
-		    Node* curr = slow;
+		    Node* temp = slow;
 		
-		    while(curr != NULL){
-		        Node* next = curr->next;
-		        curr->next = prev;
-		        prev = curr;
-		        curr = next;
+		    while(temp != NULL){
+		        Node* next = temp->next;
+		        temp->next = prev;
+		        prev = temp;
+		        temp = next;
 		    }
 		
 		    Node* h1 = head;
