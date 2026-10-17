@@ -84,7 +84,7 @@ class Queue{
 	            return;
 	        }
 	        else{
-	        	char poppedVal = stack2[top2];
+	        	char poppedVal= stack2[top2];
 		        top2--;
 		        cout << "Dequeued Value: " << poppedVal << endl;
 			}
